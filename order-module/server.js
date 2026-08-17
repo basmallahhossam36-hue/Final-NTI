@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+require("dotenv").config();
 
 const orderRoutes = require("./routes/order.routes");
 
@@ -14,12 +15,12 @@ app.get("/", (req, res) => {
 });
 
 mongoose
-    .connect("mongodb+srv://basmallahhossam36_db_user:Basmallah@cluster0.d69jyjl.mongodb.net/?appName=Cluster0")
+    .connect(process.env.MONGODB_URI)
     .then(() => {
         console.log("Connected to MongoDB");
 
-        app.listen(3000, () => {
-            console.log("Server is running on port 3000");
+        app.listen(process.env.PORT, () => {
+            console.log(`Server is running on port ${process.env.PORT}`);
         });
     })
     .catch((error) => {

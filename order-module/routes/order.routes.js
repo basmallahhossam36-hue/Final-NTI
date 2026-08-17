@@ -10,10 +10,17 @@ const {
 
 const upload = require("../middleware/upload");
 
+const authMiddleware = require("../../auth-module/middleware/auth.middleware");
+
 const router = express.Router();
 
-// Create Order with Image Upload
-router.post("/", upload.single("image"), createOrder);
+// Create Order
+router.post(
+    "/",
+    authMiddleware,
+    upload.single("image"),
+    createOrder
+);
 
 // Get All Orders
 router.get("/", getAllOrders);
