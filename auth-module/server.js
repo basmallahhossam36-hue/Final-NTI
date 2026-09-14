@@ -27,7 +27,12 @@ app.use(express.urlencoded({ extended: true }));
 
 // Test route
 app.get("/", (req, res) => {
-    res.send("El Ghandoura Store Auth API is running");
+    res.json({
+        message: "El Ghandoura Store Auth API is running",
+        testAuth: "/test-auth",
+        profile: "/auth/profile",
+        signup: "/auth/signup"
+    });
 });
 
 // Temporary test route
