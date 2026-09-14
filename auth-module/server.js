@@ -7,7 +7,15 @@ const authRoutes = require("./routes/auth.routes");
 
 const app = express();
 
-app.use(cors());
+const corsOptions = {
+    origin: "https://el-ghandoura-frontend.vercel.app",
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"]
+};
+
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
+
 app.use(express.json());
 
 // Auth Routes
