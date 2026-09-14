@@ -1,5 +1,4 @@
 const express = require("express");
-const router = express.Router();
 
 const {
     createOrder,
@@ -9,29 +8,12 @@ const {
     deleteOrder
 } = require("../controllers/order.controller");
 
-const authMiddleware = require("../../auth-module/middleware/auth.middleware");
 const upload = require("../middleware/upload");
+const authMiddleware = require("../../auth-module/middleware/auth.middleware");
 
-// Test route
-router.get("/test", (req, res) => {
-    res.send("Orders route is working");
-});
+const router = express.Router();
 
-// Get all orders - Protected
-router.get(
-    "/",
-    authMiddleware,
-    getAllOrders
-);
-
-// Get order by ID - Protected
-router.get(
-    "/:id",
-    authMiddleware,
-    getOrderById
-);
-
-// Create order - Protected
+// Create Order
 router.post(
     "/",
     authMiddleware,
@@ -39,14 +21,28 @@ router.post(
     createOrder
 );
 
-// Update order - Protected
-router.put(
+// Get All Orders
+router.get(
+    "/",
+    authMiddleware,
+    getAllOrders
+);
+
+// Get Order By ID
+router.get(
+    "/:id",
+    authMiddleware,
+    getOrderById
+);
+
+// Update Order
+router.patch(
     "/:id",
     authMiddleware,
     updateOrder
 );
 
-// Delete order - Protected
+// Delete Order
 router.delete(
     "/:id",
     authMiddleware,

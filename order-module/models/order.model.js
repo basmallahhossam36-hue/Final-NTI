@@ -1,24 +1,47 @@
 const mongoose = require("mongoose");
 
 const orderSchema = new mongoose.Schema({
+
     customerName: {
         type: String,
-        required: true
+        required: true,
+        trim: true
+    },
+
+    email: {
+        type: String,
+        required: true,
+        trim: true
+    },
+
+    phone: {
+        type: String,
+        required: true,
+        trim: true
+    },
+
+    address: {
+        type: String,
+        required: true,
+        trim: true
     },
 
     productName: {
         type: String,
-        required: true
+        required: true,
+        trim: true
     },
 
     quantity: {
         type: Number,
-        required: true
+        required: true,
+        min: 1
     },
 
     totalPrice: {
         type: Number,
-        required: true
+        required: true,
+        min: 0
     },
 
     image: {
@@ -27,6 +50,15 @@ const orderSchema = new mongoose.Schema({
 
     status: {
         type: String,
+        enum: [
+            "Pending",
+            "Confirmed",
+            "Preparing",
+            "Reached KSA",
+            "Shipped",
+            "Reached Egypt",
+            "Delivered"
+        ],
         default: "Pending"
     },
 
@@ -34,6 +66,7 @@ const orderSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     }
+
 });
 
 const Order = mongoose.model("Order", orderSchema);

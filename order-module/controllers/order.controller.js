@@ -14,12 +14,14 @@ const createOrder = async (req, res) => {
             message: "Order created successfully",
             order: order
         });
-    } catch (error) {
-        res.status(400).json({
-            message: "Failed to create order",
-            error: error.message
-        });
-    }
+    }  catch (error) {
+    console.error("CREATE ORDER ERROR:", error);
+
+    res.status(400).json({
+        message: "Failed to create order",
+        error: error.message
+    });
+}
 };
 
 // Get All Orders
