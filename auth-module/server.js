@@ -30,6 +30,13 @@ app.get("/", (req, res) => {
     res.send("El Ghandoura Store Auth API is running");
 });
 
+// Temporary test route
+app.get("/test-auth", (req, res) => {
+    res.json({
+        message: "Auth server route works"
+    });
+});
+
 // Auth routes
 app.post("/auth/signup", signup);
 
