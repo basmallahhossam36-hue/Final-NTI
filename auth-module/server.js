@@ -13,7 +13,11 @@ const authMiddleware = require("./middleware/auth.middleware");
 const app = express();
 
 // CORS
-app.use(cors());
+app.use(cors({
+    origin: "https://el-ghandoura-frontend.vercel.app",
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"]
+}));
 
 // Parse JSON requests
 app.use(express.json());
