@@ -8,27 +8,13 @@ const authRoutes = require("./routes/auth.routes");
 const app = express();
 
 // CORS
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header(
-        "Access-Control-Allow-Methods",
-        "GET,POST,PUT,PATCH,DELETE,OPTIONS"
-    );
-    res.header(
-        "Access-Control-Allow-Headers",
-        "Content-Type, Authorization"
-    );
-
-    if (req.method === "OPTIONS") {
-        return res.sendStatus(204);
-    }
-
-    next();
-});
-
 app.use(cors());
 
+// Parse JSON requests
 app.use(express.json());
+
+// Parse form-urlencoded requests
+app.use(express.urlencoded({ extended: true }));
 
 // Auth Routes
 app.use("/auth", authRoutes);
