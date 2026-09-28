@@ -2,6 +2,13 @@ const mongoose = require("mongoose");
 
 const orderSchema = new mongoose.Schema({
 
+    // User who created this order
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true
+    },
+
     customerName: {
         type: String,
         required: true,
