@@ -89,6 +89,57 @@ const getAllOrders = async (req, res) => {
 };
 
 
+// ================= ADMIN GET ALL ORDERS =================
+
+const getAllOrdersAdmin = async (req, res) => {
+
+    try {
+
+        // Only admin can access all orders
+
+        if (req.user.role !== "admin") {
+
+            return res.status(403).json({
+
+                message: "Access denied. Admin only."
+
+            });
+
+        }
+
+        // Get ALL orders from all users
+
+        const orders = await Order.find()
+            .sort({
+                orderDate: -1
+            });
+
+        res.status(200).json({
+
+            orders: orders
+
+        });
+
+    } catch (error) {
+
+        console.error(
+            "GET ALL ADMIN ORDERS ERROR:",
+            error
+        );
+
+        res.status(500).json({
+
+            message: "Failed to get all orders",
+
+            error: error.message
+
+        });
+
+    }
+
+};
+
+
 // ================= GET ONE USER ORDER =================
 
 const getOrderById = async (req, res) => {
@@ -134,7 +185,7 @@ const getOrderById = async (req, res) => {
 };
 
 
-// ================= UPDATE ORDER =================
+// ================= UPDATE USER ORDER =================
 
 const updateOrder = async (req, res) => {
 
@@ -189,7 +240,76 @@ const updateOrder = async (req, res) => {
 };
 
 
-// ================= DELETE ORDER =================
+// ================= ADMIN UPDATE ORDER =================
+
+const updateOrderAdmin = async (req, res) => {
+
+    try {
+
+        // Only admin can update any order
+
+        if (req.user.role !== "admin") {
+
+            return res.status(403).json({
+
+                message: "Access denied. Admin only."
+
+            });
+
+        }
+
+        const order = await Order.findByIdAndUpdate(
+
+            req.params.id,
+
+            req.body,
+
+            {
+                new: true,
+                runValidators: true
+            }
+
+        );
+
+        if (!order) {
+
+            return res.status(404).json({
+
+                message: "Order not found"
+
+            });
+
+        }
+
+        res.status(200).json({
+
+            message: "Order updated successfully",
+
+            order: order
+
+        });
+
+    } catch (error) {
+
+        console.error(
+            "ADMIN UPDATE ORDER ERROR:",
+            error
+        );
+
+        res.status(400).json({
+
+            message: "Failed to update order",
+
+            error: error.message
+
+        });
+
+    }
+
+};
+
+
+// ================= DELETE USER ORDER =================
 
 const deleteOrder = async (req, res) => {
 
@@ -234,16 +354,84 @@ const deleteOrder = async (req, res) => {
 };
 
 
+// ================= ADMIN DELETE ORDER =================
+
+const deleteOrderAdmin = async (req, res) => {
+
+    try {
+
+        // Only admin can delete any order
+
+        if (req.user.role !== "admin") {
+
+            return res.status(403).json({
+
+                message: "Access denied. Admin only."
+
+            });
+
+        }
+
+        const order = await Order.findByIdAndDelete(
+
+            req.params.id
+
+        );
+
+        if (!order) {
+
+            return res.status(404).json({
+
+                message: "Order not found"
+
+            });
+
+        }
+
+        res.status(200).json({
+
+            message: "Order deleted successfully"
+
+        });
+
+    } catch (error) {
+
+        console.error(
+            "ADMIN DELETE ORDER ERROR:",
+            error
+        );
+
+        res.status(400).json({
+
+            message: "Failed to delete order",
+
+            error: error.message
+
+        });
+
+    }
+
+};
+
+
+// ================= EXPORTS =================
+
 module.exports = {
 
     createOrder,
 
     getAllOrders,
 
+    getAllOrdersAdmin,
+
     getOrderById,
 
     updateOrder,
 
-    deleteOrder
+    updateOrderAdmin,
+
+    deleteOrder,
+
+    deleteOrderAdmin
 
 };
